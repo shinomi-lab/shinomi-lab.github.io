@@ -2,8 +2,9 @@
 
 [Astro](https://astro.build) で作った静的サイトです。`main` に push すると GitHub Pages に自動で公開されます。
 
+- 公開 URL: <https://shinomi-lab.github.io/>（英語版: <https://shinomi-lab.github.io/en/>）
 - コンテンツ（メンバー・業績・お知らせ・研究テーマ）の更新方法 → [CONTRIBUTING.md](./CONTRIBUTING.md)
-- 日本語は `/`、英語は `/en/` で公開されます
+- 日本語は `/`、英語は `/en/` で公開されます。独自ドメインに切り替えた場合は、この URL を書き換えてください
 
 ## 技術スタック
 
