@@ -43,22 +43,6 @@ const news = (await getNews(lang)).slice(0, 5);
     </div>
   </Section>
 
-  <!-- CTA 帯 -->
-  <section class="bg-brand-700 py-20 text-center text-white sm:py-28">
-    <div class="mx-auto max-w-3xl px-5">
-      <h2 class="font-display text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
-        {t('home.join.title')}
-      </h2>
-      <p class="mt-5 text-brand-100">{t('home.join.body')}</p>
-      <a
-        href={localizePath(lang, 'access')}
-        class="btn-pill-outline mt-10 text-white hover:bg-white hover:text-brand-700"
-      >
-        {t('home.join.button')} →
-      </a>
-    </div>
-  </section>
-
   {
     publications.length > 0 && (
       <Section title={t('home.publications')} tone="surface">

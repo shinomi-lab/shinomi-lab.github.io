@@ -1,0 +1,9 @@
+name:
+  ja: 長田 翔太
+  en: Shota Osada
+role: master
+enrolledYear: 2025
+photo: ./photos/osada-shota.jpg
+research:
+  ja: 情報通信ネットワーク / 機械学習（GNN・強化学習）/ 組合せ最適化
+  en: Information and communication networks / Machine learning (GNN, reinforcement learning) / Combinatorial optimization
