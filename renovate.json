@@ -6,6 +6,11 @@
       "description": "パッチ・マイナー更新はまとめて 1 つの PR にする",
       "matchUpdateTypes": ["minor", "patch"],
       "groupName": "minor and patch dependencies"
+    },
+    {
+      "description": "@astrojs/check が TypeScript 7 に対応するまで 6 系に留める",
+      "matchPackageNames": ["typescript"],
+      "allowedVersions": "<7"
     }
   ]
 }
