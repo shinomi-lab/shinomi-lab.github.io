@@ -1,0 +1,65 @@
+---
+import { render } from 'astro:content';
+import PageHeader from '../components/PageHeader.astro';
+import { getLocale, useTranslations } from '../i18n/utils';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPublications } from '../lib/content';
+import { publicationTypeLabels } from '../lib/labels';
+
+const lang = getLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+const publications = await Promise.all(
+  (await getPublications()).map(async (pub) => ({ pub, ...(await render(pub)) })),
+);
+
+// 年ごとにまとめる（新しい年が先）
+const byYear = Map.groupBy(publications, ({ pub }) => pub.data.date.getFullYear());
+const years = [...byYear.keys()].sort((a, b) => b - a);
+---
+
+<BaseLayout title={t('nav.publications')}>
+  <PageHeader title={t('nav.publications')} />
+  {publications.length === 0 && <p class="text-slate-500">{t('publications.empty')}</p>}
+  <div class="space-y-12">
+    {
+      years.map((year) => (
+        <section>
+          <h2 class="mb-4 text-xl font-bold text-brand-900">{year}</h2>
+          <ol class="space-y-5">
+            {byYear.get(year)?.map(({ pub, Content }) => (
+              <li class="border-l-2 border-brand-100 pl-4">
+                <p class="text-xs font-medium text-brand-600">
+                  {publicationTypeLabels[pub.data.type][lang]}
+                </p>
+                <p class="font-semibold text-slate-900">
+                  {pub.data.url ? (
+                    <a href={pub.data.url} class="hover:text-brand-600 hover:underline">
+                      {pub.data.title}
+                    </a>
+                  ) : (
+                    pub.data.title
+                  )}
+                </p>
+                <p class="text-sm text-slate-600">{pub.data.authors.join(', ')}</p>
+                <p class="text-sm text-slate-500 italic">{pub.data.venue}</p>
+                {pub.data.doi && (
+                  <a
+                    href={`https://doi.org/${pub.data.doi}`}
+                    class="text-sm text-brand-600 hover:underline"
+                  >
+                    doi:{pub.data.doi}
+                  </a>
+                )}
+                {pub.body?.trim() && (
+                  <div class="prose prose-sm prose-slate mt-1 max-w-none">
+                    <Content />
+                  </div>
+                )}
+              </li>
+            ))}
+          </ol>
+        </section>
+      ))
+    }
+  </div>
+</BaseLayout>

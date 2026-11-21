@@ -1,0 +1,17 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getNews, splitLocaleId } from '../../lib/content';
+import NewsDetailPage from '../../views/NewsDetailPage.astro';
+
+export const getStaticPaths = (async () => {
+  const entries = await getNews('ja');
+  return entries.map((entry) => ({
+    params: { slug: splitLocaleId(entry.id).slug },
+    props: { entry },
+  }));
+}) satisfies GetStaticPaths;
+
+const { entry } = Astro.props;
+---
+
+<NewsDetailPage entry={entry} />

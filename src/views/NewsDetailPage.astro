@@ -1,0 +1,28 @@
+---
+import { type CollectionEntry, render } from 'astro:content';
+import { formatDate, getLocale, localizePath, useTranslations } from '../i18n/utils';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+interface Props {
+  entry: CollectionEntry<'news'>;
+}
+const { entry } = Astro.props;
+const lang = getLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+const { Content } = await render(entry);
+---
+
+<BaseLayout title={entry.data.title}>
+  <article>
+    <time datetime={entry.data.date.toISOString()} class="text-sm text-slate-500">
+      {formatDate(entry.data.date, lang)}
+    </time>
+    <h1 class="mt-2 text-3xl font-bold tracking-tight text-brand-900">{entry.data.title}</h1>
+    <div class="prose prose-slate mt-8 max-w-none">
+      <Content />
+    </div>
+  </article>
+  <a href={localizePath(lang, 'news')} class="mt-12 inline-block text-sm text-brand-600 hover:underline">
+    ← {t('common.backToList')}
+  </a>
+</BaseLayout>

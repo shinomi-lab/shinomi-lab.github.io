@@ -1,0 +1,9 @@
+# サンプル。実際のメンバーを登録したら削除する
+name:
+  ja: サンプル 花子
+  en: Hanako Sample
+role: master
+enrolledYear: 2026
+research:
+  ja: サンプルの研究テーマ
+  en: Sample research topic

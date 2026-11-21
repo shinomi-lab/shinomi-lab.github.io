@@ -1,0 +1,55 @@
+---
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+import { siteConfig } from '../config';
+import { locales } from '../i18n/ui';
+import { getLocale, pick, switchLocalePath } from '../i18n/utils';
+import '../styles/global.css';
+
+interface Props {
+  /** ページ固有のタイトル。省略するとサイト名のみ */
+  title?: string;
+  description?: string;
+}
+
+const lang = getLocale(Astro.currentLocale);
+const siteName = pick(siteConfig.name, lang);
+const { title, description = pick(siteConfig.description, lang) } = Astro.props;
+const pageTitle = title ? `${title} | ${siteName}` : siteName;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang={lang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {
+      locales.map((l) => (
+        <link
+          rel="alternate"
+          hreflang={l}
+          href={new URL(switchLocalePath(Astro.url.pathname, l), Astro.site)}
+        />
+      ))
+    }
+    <link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+    <link rel="sitemap" href={`${import.meta.env.BASE_URL}sitemap-index.xml`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <Header />
+    <main class="mx-auto w-full max-w-5xl flex-1 px-4 py-10 sm:px-6">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

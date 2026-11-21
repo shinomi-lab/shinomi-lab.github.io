@@ -1,0 +1,12 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="404 Not Found">
+  <h1 class="text-3xl font-bold text-brand-900">404 Not Found</h1>
+  <p class="mt-4 text-slate-600">お探しのページは見つかりませんでした。</p>
+  <p class="text-slate-600">The page you are looking for could not be found.</p>
+  <a href={import.meta.env.BASE_URL} class="mt-8 inline-block text-brand-600 hover:underline">
+    ホーム / Home
+  </a>
+</BaseLayout>

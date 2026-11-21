@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* サイト全体の色・フォントはここで管理する */
+@theme {
+  --font-sans:
+    "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", Meiryo, system-ui,
+    sans-serif;
+  --color-brand-50: oklch(0.97 0.015 250);
+  --color-brand-100: oklch(0.93 0.03 250);
+  --color-brand-600: oklch(0.48 0.13 255);
+  --color-brand-700: oklch(0.4 0.12 255);
+  --color-brand-900: oklch(0.26 0.07 255);
+}
+
+@layer base {
+  html {
+    @apply bg-white text-slate-800 antialiased;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-brand-600;
+  }
+}

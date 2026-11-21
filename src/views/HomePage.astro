@@ -1,0 +1,56 @@
+---
+import NewsList from '../components/NewsList.astro';
+import { siteConfig } from '../config';
+import { getLocale, localizePath, pick, useTranslations } from '../i18n/utils';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getNews, getResearch, splitLocaleId } from '../lib/content';
+
+const lang = getLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+const news = (await getNews(lang)).slice(0, 5);
+const research = await getResearch(lang);
+---
+
+<BaseLayout>
+  <section class="-mx-4 mb-14 rounded-none bg-brand-50 px-6 py-14 sm:mx-0 sm:rounded-2xl sm:px-10">
+    <p class="text-sm font-medium text-brand-600">{pick(siteConfig.affiliation, lang)}</p>
+    <h1 class="mt-2 text-3xl font-bold tracking-tight text-brand-900 sm:text-4xl">
+      {pick(siteConfig.name, lang)}
+    </h1>
+    <p class="mt-4 max-w-2xl text-slate-700">{pick(siteConfig.description, lang)}</p>
+  </section>
+
+  <section class="mb-14">
+    <div class="mb-4 flex items-baseline justify-between">
+      <h2 class="text-xl font-bold text-brand-900">{t('home.research')}</h2>
+      <a href={localizePath(lang, 'research')} class="text-sm text-brand-600 hover:underline">
+        {t('common.more')} →
+      </a>
+    </div>
+    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        research.map((topic) => (
+          <li class="rounded-lg border border-slate-200 p-5">
+            <a
+              href={`${localizePath(lang, 'research')}#${splitLocaleId(topic.id).slug}`}
+              class="font-semibold text-slate-900 hover:text-brand-600"
+            >
+              {topic.data.title}
+            </a>
+            <p class="mt-2 text-sm text-slate-600">{topic.data.summary}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <section>
+    <div class="mb-2 flex items-baseline justify-between">
+      <h2 class="text-xl font-bold text-brand-900">{t('home.news')}</h2>
+      <a href={localizePath(lang, 'news')} class="text-sm text-brand-600 hover:underline">
+        {t('common.more')} →
+      </a>
+    </div>
+    <NewsList entries={news} />
+  </section>
+</BaseLayout>

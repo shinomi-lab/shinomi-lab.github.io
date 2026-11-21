@@ -1,0 +1,26 @@
+---
+import PageHeader from '../components/PageHeader.astro';
+import { siteConfig } from '../config';
+import { getLocale, pick, useTranslations } from '../i18n/utils';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const lang = getLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+---
+
+<BaseLayout title={t('access.title')}>
+  <PageHeader title={t('access.title')} />
+  <dl class="grid gap-6 sm:grid-cols-[10rem_1fr]">
+    <dt class="font-semibold text-slate-700">{t('access.address')}</dt>
+    <dd>
+      {pick(siteConfig.affiliation, lang)}<br />
+      {pick(siteConfig.address, lang)}
+    </dd>
+    <dt class="font-semibold text-slate-700">{t('access.email')}</dt>
+    <dd>
+      <a href={`mailto:${siteConfig.email}`} class="text-brand-600 hover:underline">
+        {siteConfig.email}
+      </a>
+    </dd>
+  </dl>
+</BaseLayout>

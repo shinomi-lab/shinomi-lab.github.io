@@ -1,0 +1,7 @@
+# サンプル。実際のメンバーを登録したら削除する
+name:
+  ja: サンプル 次郎
+  en: Jiro Sample
+role: bachelor
+enrolledYear: 2024
+graduatedYear: 2025

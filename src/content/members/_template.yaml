@@ -1,0 +1,14 @@
+# メンバー追加用のテンプレート。コピーして <姓-名>.yaml にリネームして使う。
+# ファイル名が "_" で始まるものはサイトに表示されない。
+name:
+  ja: 研究 太郎
+  en: Taro Kenkyu # 任意。省略すると英語ページでも日本語名を表示
+# professor / associate-professor / assistant-professor / researcher / staff / doctor / master / bachelor
+role: master
+enrolledYear: 2026 # 入学（着任）年度。教員など不明な場合は省略可
+# graduatedYear: 2028 # 卒業したらコメントを外して年度を書く → 卒業生欄に移動する
+research: # 任意
+  ja: 研究テーマ
+  en: Research topic
+# photo: ./photos/kenkyu-taro.jpg # 任意。src/content/members/photos/ に画像を置く
+links: [] # 例: [{ label: GitHub, url: "https://github.com/xxx" }]

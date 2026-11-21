@@ -1,0 +1,20 @@
+---
+import { siteConfig } from '../config';
+import { getLocale, pick, useTranslations } from '../i18n/utils';
+
+const lang = getLocale(Astro.currentLocale);
+const t = useTranslations(lang);
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-slate-200 bg-slate-50">
+  <div
+    class="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-8 text-sm text-slate-500 sm:flex-row sm:justify-between sm:px-6"
+  >
+    <div>
+      <p class="font-semibold text-slate-700">{pick(siteConfig.name, lang)}</p>
+      <p>{pick(siteConfig.address, lang)}</p>
+    </div>
+    <p>&copy; {year} {pick(siteConfig.name, lang)}. {t('footer.copyright')}</p>
+  </div>
+</footer>
