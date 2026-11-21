@@ -37,25 +37,28 @@ const members = defineCollection({
 /** 業績: src/content/publications/<年>/<id>.md。本文（任意）は補足として表示する */
 const publications = defineCollection({
   loader: glob({ base: './src/content/publications', pattern: '**/[^_]*.md' }),
-  schema: z.object({
-    title: z.string(),
-    authors: z.array(z.string()).min(1),
-    /** 掲載誌・会議名 */
-    venue: z.string(),
-    date: z.coerce.date(),
-    type: z.enum([
-      'journal',
-      'international-conference',
-      'domestic-conference',
-      'thesis',
-      'award',
-      'other',
-    ]),
-    doi: z.string().optional(),
-    url: z.url().optional(),
-    /** 研究室メンバーとの紐付け（任意）。members のファイル名を書く */
-    members: z.array(reference('members')).default([]),
-  }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      authors: z.array(z.string()).min(1),
+      /** 掲載誌・会議名 */
+      venue: z.string(),
+      date: z.coerce.date(),
+      type: z.enum([
+        'journal',
+        'international-conference',
+        'domestic-conference',
+        'thesis',
+        'award',
+        'other',
+      ]),
+      doi: z.string().optional(),
+      url: z.url().optional(),
+      /** 研究室メンバーとの紐付け（任意）。members のファイル名を書く */
+      members: z.array(reference('members')).default([]),
+      /** サムネイル画像（任意）。トップページのカードに表示する */
+      image: image().optional(),
+    }),
 });
 
 /** お知らせ: src/content/news/<ja|en>/<id>.md。同じ id で日英をそろえる */

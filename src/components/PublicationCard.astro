@@ -1,0 +1,47 @@
+---
+// 業績のカード（サムネイル + 種別 + タイトル）
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import { getLocale } from '../i18n/utils';
+import { publicationTypeLabels } from '../lib/labels';
+import NetworkPattern from './NetworkPattern.astro';
+
+interface Props {
+  pub: CollectionEntry<'publications'>;
+  index: number;
+}
+const { pub, index } = Astro.props;
+const lang = getLocale(Astro.currentLocale);
+const link = pub.data.url ?? (pub.data.doi ? `https://doi.org/${pub.data.doi}` : undefined);
+const Tag = link ? 'a' : 'div';
+---
+
+<Tag
+  href={link}
+  class="group flex flex-col overflow-hidden rounded-sm bg-white shadow-sm transition-shadow hover:shadow-lg"
+>
+  <div class="relative aspect-[16/9] overflow-hidden bg-brand-900">
+    {
+      pub.data.image ? (
+        <Image
+          src={pub.data.image}
+          alt=""
+          widths={[400, 800]}
+          sizes="(min-width: 1024px) 33vw, 100vw"
+          class="size-full object-cover transition-transform duration-500 group-hover:scale-105"
+        />
+      ) : (
+        <NetworkPattern seed={index + 21} nodes={18} class="size-full text-brand-300" />
+      )
+    }
+  </div>
+  <div class="flex flex-1 flex-col p-6">
+    <p class="font-display text-xs font-bold tracking-wider text-brand-600 uppercase">
+      {publicationTypeLabels[pub.data.type][lang]} · {pub.data.date.getFullYear()}
+    </p>
+    <h3 class="mt-2 font-display text-lg leading-snug font-bold group-hover:text-brand-600">
+      {pub.data.title}
+    </h3>
+    <p class="mt-auto pt-4 text-sm text-neutral-500">{pub.data.venue}</p>
+  </div>
+</Tag>

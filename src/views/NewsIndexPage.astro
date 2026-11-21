@@ -1,4 +1,5 @@
 ---
+import Container from '../components/Container.astro';
 import NewsList from '../components/NewsList.astro';
 import PageHeader from '../components/PageHeader.astro';
 import { getLocale, useTranslations } from '../i18n/utils';
@@ -12,5 +13,7 @@ const news = await getNews(lang);
 
 <BaseLayout title={t('nav.news')}>
   <PageHeader title={t('nav.news')} />
-  <NewsList entries={news} />
+  <Container class="max-w-4xl py-16 sm:py-24">
+    <NewsList entries={news} />
+  </Container>
 </BaseLayout>

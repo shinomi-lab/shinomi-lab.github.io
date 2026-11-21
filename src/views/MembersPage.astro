@@ -1,6 +1,7 @@
 ---
 import MemberCard from '../components/MemberCard.astro';
 import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
 import { getLocale, useTranslations } from '../i18n/utils';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getMembers } from '../lib/content';
@@ -17,18 +18,15 @@ const groups = [
 
 <BaseLayout title={t('nav.members')}>
   <PageHeader title={t('nav.members')} />
-  <div class="space-y-12">
-    {
-      groups.map((group) => (
-        <section>
-          <h2 class="mb-4 text-xl font-bold text-brand-900">{group.title}</h2>
-          <div class="grid gap-4 md:grid-cols-2">
-            {group.members.map((member) => (
-              <MemberCard member={member} />
-            ))}
-          </div>
-        </section>
-      ))
-    }
-  </div>
+  {
+    groups.map((group, i) => (
+      <Section title={group.title} tone={i % 2 === 0 ? 'white' : 'surface'}>
+        <div class="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4">
+          {group.members.map((member) => (
+            <MemberCard member={member} />
+          ))}
+        </div>
+      </Section>
+    ))
+  }
 </BaseLayout>

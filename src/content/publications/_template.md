@@ -12,6 +12,7 @@ type: domestic-conference
 # doi: 10.xxxx/xxxxx # 任意
 # url: https://example.com # 任意
 # members: [kenkyu-taro] # 任意。members のファイル名（拡張子なし）
+# image: ./images/xxx.png # 任意。トップページのカードに表示するサムネイル
 ---
 
 本文は任意です。受賞の補足やスライドへのリンクなどを書けます。

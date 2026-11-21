@@ -1,0 +1,52 @@
+---
+// 画像が無いときの背景。グラフ（ノードとエッジ）を描いた装飾用 SVG
+interface Props {
+  seed?: number;
+  nodes?: number;
+  class?: string;
+}
+const { seed = 1, nodes = 42, class: className } = Astro.props;
+
+// シード付き乱数（ビルドごとに同じ模様になる）
+let s = seed * 9301 + 49297;
+const rand = () => {
+  s = (s * 9301 + 49297) % 233280;
+  return s / 233280;
+};
+const W = 1200;
+const H = 600;
+const points = Array.from({ length: nodes }, () => ({
+  x: rand() * W,
+  y: rand() * H,
+  r: 1.5 + rand() * 3,
+}));
+const edges: [number, number][] = [];
+points.forEach((p, i) => {
+  points
+    .map((q, j) => ({ j, d: Math.hypot(p.x - q.x, p.y - q.y) }))
+    .filter(({ j }) => j > i)
+    .sort((a, b) => a.d - b.d)
+    .slice(0, 2)
+    .forEach(({ j, d }) => {
+      if (d < 260) edges.push([i, j]);
+    });
+});
+---
+
+<svg
+  viewBox={`0 0 ${W} ${H}`}
+  preserveAspectRatio="xMidYMid slice"
+  class={className}
+  aria-hidden="true"
+>
+  <g stroke="currentColor" stroke-opacity="0.25" stroke-width="1">
+    {
+      edges.map(([a, b]) => (
+        <line x1={points[a]?.x} y1={points[a]?.y} x2={points[b]?.x} y2={points[b]?.y} />
+      ))
+    }
+  </g>
+  <g fill="currentColor" fill-opacity="0.6">
+    {points.map((p) => <circle cx={p.x} cy={p.y} r={p.r} />)}
+  </g>
+</svg>

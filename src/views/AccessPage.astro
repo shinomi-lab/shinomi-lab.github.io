@@ -1,4 +1,5 @@
 ---
+import Container from '../components/Container.astro';
 import PageHeader from '../components/PageHeader.astro';
 import { siteConfig } from '../config';
 import { getLocale, pick, useTranslations } from '../i18n/utils';
@@ -10,17 +11,19 @@ const t = useTranslations(lang);
 
 <BaseLayout title={t('access.title')}>
   <PageHeader title={t('access.title')} />
+  <Container class="py-16 sm:py-24">
   <dl class="grid gap-6 sm:grid-cols-[10rem_1fr]">
-    <dt class="font-semibold text-slate-700">{t('access.address')}</dt>
+    <dt class="font-display font-bold text-ink">{t('access.address')}</dt>
     <dd>
       {pick(siteConfig.affiliation, lang)}<br />
       {pick(siteConfig.address, lang)}
     </dd>
-    <dt class="font-semibold text-slate-700">{t('access.email')}</dt>
+    <dt class="font-display font-bold text-ink">{t('access.email')}</dt>
     <dd>
       <a href={`mailto:${siteConfig.email}`} class="text-brand-600 hover:underline">
         {siteConfig.email}
       </a>
     </dd>
   </dl>
+  </Container>
 </BaseLayout>

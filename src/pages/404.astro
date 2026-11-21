@@ -1,12 +1,13 @@
 ---
+import Container from '../components/Container.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="404 Not Found">
-  <h1 class="text-3xl font-bold text-brand-900">404 Not Found</h1>
-  <p class="mt-4 text-slate-600">お探しのページは見つかりませんでした。</p>
-  <p class="text-slate-600">The page you are looking for could not be found.</p>
-  <a href={import.meta.env.BASE_URL} class="mt-8 inline-block text-brand-600 hover:underline">
-    ホーム / Home
-  </a>
+  <Container class="py-24 text-center sm:py-32">
+    <p class="font-display text-7xl font-extrabold text-brand-600">404</p>
+    <p class="mt-6 text-neutral-600">お探しのページは見つかりませんでした。</p>
+    <p class="text-neutral-600">The page you are looking for could not be found.</p>
+    <a href={import.meta.env.BASE_URL} class="btn-pill mt-10">ホーム / Home</a>
+  </Container>
 </BaseLayout>
