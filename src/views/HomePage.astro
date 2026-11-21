@@ -1,56 +1,87 @@
 ---
+import Hero from '../components/Hero.astro';
+import MemberCard from '../components/MemberCard.astro';
 import NewsList from '../components/NewsList.astro';
-import { siteConfig } from '../config';
-import { getLocale, localizePath, pick, useTranslations } from '../i18n/utils';
+import PublicationCard from '../components/PublicationCard.astro';
+import ResearchTile from '../components/ResearchTile.astro';
+import Section from '../components/Section.astro';
+import { getLocale, localizePath, useTranslations } from '../i18n/utils';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getNews, getResearch, splitLocaleId } from '../lib/content';
+import { getMembers, getNews, getPublications, getResearch, splitLocaleId } from '../lib/content';
 
 const lang = getLocale(Astro.currentLocale);
 const t = useTranslations(lang);
-const news = (await getNews(lang)).slice(0, 5);
 const research = await getResearch(lang);
+const { faculty } = await getMembers();
+const publications = (await getPublications()).slice(0, 3);
+const news = (await getNews(lang)).slice(0, 5);
 ---
 
 <BaseLayout>
-  <section class="-mx-4 mb-14 rounded-none bg-brand-50 px-6 py-14 sm:mx-0 sm:rounded-2xl sm:px-10">
-    <p class="text-sm font-medium text-brand-600">{pick(siteConfig.affiliation, lang)}</p>
-    <h1 class="mt-2 text-3xl font-bold tracking-tight text-brand-900 sm:text-4xl">
-      {pick(siteConfig.name, lang)}
-    </h1>
-    <p class="mt-4 max-w-2xl text-slate-700">{pick(siteConfig.description, lang)}</p>
-  </section>
+  <Hero />
 
-  <section class="mb-14">
-    <div class="mb-4 flex items-baseline justify-between">
-      <h2 class="text-xl font-bold text-brand-900">{t('home.research')}</h2>
-      <a href={localizePath(lang, 'research')} class="text-sm text-brand-600 hover:underline">
-        {t('common.more')} →
-      </a>
-    </div>
-    <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  <Section title={t('home.research')} tone="surface">
+    <div class="grid gap-6 md:grid-cols-2">
       {
-        research.map((topic) => (
-          <li class="rounded-lg border border-slate-200 p-5">
-            <a
-              href={`${localizePath(lang, 'research')}#${splitLocaleId(topic.id).slug}`}
-              class="font-semibold text-slate-900 hover:text-brand-600"
-            >
-              {topic.data.title}
-            </a>
-            <p class="mt-2 text-sm text-slate-600">{topic.data.summary}</p>
-          </li>
+        research.map((topic, i) => (
+          <ResearchTile
+            topic={topic}
+            index={i}
+            href={`${localizePath(lang, 'research')}#${splitLocaleId(topic.id).slug}`}
+          />
         ))
       }
-    </ul>
-  </section>
+    </div>
+  </Section>
 
-  <section>
-    <div class="mb-2 flex items-baseline justify-between">
-      <h2 class="text-xl font-bold text-brand-900">{t('home.news')}</h2>
-      <a href={localizePath(lang, 'news')} class="text-sm text-brand-600 hover:underline">
-        {t('common.more')} →
+  <Section title={t('home.people')} lead={t('home.peopleLead')}>
+    <div class="mx-auto grid max-w-4xl grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-4">
+      {faculty.map((member) => <MemberCard member={member} />)}
+    </div>
+    <div class="mt-12 text-center">
+      <a href={localizePath(lang, 'members')} class="btn-pill">{t('members.allMembers')} →</a>
+    </div>
+  </Section>
+
+  <!-- CTA 帯 -->
+  <section class="bg-brand-700 py-20 text-center text-white sm:py-28">
+    <div class="mx-auto max-w-3xl px-5">
+      <h2 class="font-display text-3xl font-extrabold tracking-tight text-white sm:text-5xl">
+        {t('home.join.title')}
+      </h2>
+      <p class="mt-5 text-brand-100">{t('home.join.body')}</p>
+      <a
+        href={localizePath(lang, 'access')}
+        class="btn-pill-outline mt-10 text-white hover:bg-white hover:text-brand-700"
+      >
+        {t('home.join.button')} →
       </a>
     </div>
-    <NewsList entries={news} />
   </section>
+
+  {
+    publications.length > 0 && (
+      <Section title={t('home.publications')} tone="surface">
+        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+          {publications.map((pub, i) => (
+            <PublicationCard pub={pub} index={i} />
+          ))}
+        </div>
+        <div class="mt-12 text-center">
+          <a href={localizePath(lang, 'publications')} class="btn-pill">
+            {t('common.more')} →
+          </a>
+        </div>
+      </Section>
+    )
+  }
+
+  <Section title={t('home.news')}>
+    <div class="mx-auto max-w-3xl">
+      <NewsList entries={news} />
+    </div>
+    <div class="mt-12 text-center">
+      <a href={localizePath(lang, 'news')} class="btn-pill">{t('common.more')} →</a>
+    </div>
+  </Section>
 </BaseLayout>

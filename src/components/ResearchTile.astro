@@ -1,0 +1,41 @@
+---
+// 研究テーマの画像タイル（画像の上にタイトルを重ねる）
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+import NetworkPattern from './NetworkPattern.astro';
+
+interface Props {
+  topic: CollectionEntry<'research'>;
+  href: string;
+  index: number;
+}
+const { topic, href, index } = Astro.props;
+---
+
+<a
+  href={href}
+  class="group relative isolate flex aspect-[4/3] items-end overflow-hidden rounded-sm bg-brand-900"
+>
+  {
+    topic.data.image ? (
+      <Image
+        src={topic.data.image}
+        alt=""
+        widths={[480, 960]}
+        sizes="(min-width: 768px) 50vw, 100vw"
+        class="absolute inset-0 -z-10 size-full object-cover transition-transform duration-500 group-hover:scale-105"
+      />
+    ) : (
+      <NetworkPattern
+        seed={index + 11}
+        nodes={26}
+        class="absolute inset-0 -z-10 size-full text-brand-300 transition-transform duration-500 group-hover:scale-105"
+      />
+    )
+  }
+  <div class="absolute inset-0 -z-10 bg-gradient-to-t from-black/75 via-black/10 to-transparent"></div>
+  <div class="p-6 sm:p-8">
+    <h3 class="font-display text-2xl font-extrabold text-white sm:text-3xl">{topic.data.title}</h3>
+    <p class="mt-2 line-clamp-2 text-sm text-white/80">{topic.data.summary}</p>
+  </div>
+</a>

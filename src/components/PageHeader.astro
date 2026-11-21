@@ -1,4 +1,8 @@
 ---
+// 下層ページ上部のタイトル帯
+import Container from './Container.astro';
+import NetworkPattern from './NetworkPattern.astro';
+
 interface Props {
   title: string;
   lead?: string;
@@ -6,7 +10,10 @@ interface Props {
 const { title, lead } = Astro.props;
 ---
 
-<div class="mb-10 border-b border-slate-200 pb-6">
-  <h1 class="text-3xl font-bold tracking-tight text-brand-900">{title}</h1>
-  {lead && <p class="mt-3 text-slate-600">{lead}</p>}
+<div class="relative overflow-hidden bg-brand-900 text-white">
+  <NetworkPattern seed={7} nodes={30} class="absolute inset-0 size-full text-brand-300" />
+  <Container class="relative py-16 sm:py-20">
+    <h1 class="font-display text-4xl font-extrabold tracking-tight text-white sm:text-5xl">{title}</h1>
+    {lead && <p class="mt-4 max-w-2xl text-brand-100">{lead}</p>}
+  </Container>
 </div>

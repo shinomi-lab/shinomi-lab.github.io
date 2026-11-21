@@ -1,5 +1,6 @@
 ---
 import { render } from 'astro:content';
+import Container from '../components/Container.astro';
 import PageHeader from '../components/PageHeader.astro';
 import { getLocale, useTranslations } from '../i18n/utils';
 import BaseLayout from '../layouts/BaseLayout.astro';
@@ -19,19 +20,20 @@ const years = [...byYear.keys()].sort((a, b) => b - a);
 
 <BaseLayout title={t('nav.publications')}>
   <PageHeader title={t('nav.publications')} />
-  {publications.length === 0 && <p class="text-slate-500">{t('publications.empty')}</p>}
-  <div class="space-y-12">
+  <Container class="py-16 sm:py-24">
+  {publications.length === 0 && <p class="text-neutral-500">{t('publications.empty')}</p>}
+  <div class="space-y-16">
     {
       years.map((year) => (
         <section>
-          <h2 class="mb-4 text-xl font-bold text-brand-900">{year}</h2>
-          <ol class="space-y-5">
+          <h2 class="mb-6 border-b border-black/10 pb-3 font-display text-3xl font-extrabold">{year}</h2>
+          <ol class="space-y-8">
             {byYear.get(year)?.map(({ pub, Content }) => (
-              <li class="border-l-2 border-brand-100 pl-4">
-                <p class="text-xs font-medium text-brand-600">
+              <li>
+                <p class="font-display text-xs font-bold tracking-wider text-brand-600 uppercase">
                   {publicationTypeLabels[pub.data.type][lang]}
                 </p>
-                <p class="font-semibold text-slate-900">
+                <p class="mt-1 font-display text-lg font-bold text-ink">
                   {pub.data.url ? (
                     <a href={pub.data.url} class="hover:text-brand-600 hover:underline">
                       {pub.data.title}
@@ -40,8 +42,8 @@ const years = [...byYear.keys()].sort((a, b) => b - a);
                     pub.data.title
                   )}
                 </p>
-                <p class="text-sm text-slate-600">{pub.data.authors.join(', ')}</p>
-                <p class="text-sm text-slate-500 italic">{pub.data.venue}</p>
+                <p class="text-sm text-neutral-600">{pub.data.authors.join(', ')}</p>
+                <p class="text-sm text-neutral-500 italic">{pub.data.venue}</p>
                 {pub.data.doi && (
                   <a
                     href={`https://doi.org/${pub.data.doi}`}
@@ -51,7 +53,7 @@ const years = [...byYear.keys()].sort((a, b) => b - a);
                   </a>
                 )}
                 {pub.body?.trim() && (
-                  <div class="prose prose-sm prose-slate mt-1 max-w-none">
+                  <div class="prose prose-sm prose-neutral mt-1 max-w-none">
                     <Content />
                   </div>
                 )}
@@ -62,4 +64,5 @@ const years = [...byYear.keys()].sort((a, b) => b - a);
       ))
     }
   </div>
+  </Container>
 </BaseLayout>

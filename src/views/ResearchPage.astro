@@ -1,7 +1,9 @@
 ---
 import { Image } from 'astro:assets';
 import { render } from 'astro:content';
+import NetworkPattern from '../components/NetworkPattern.astro';
 import PageHeader from '../components/PageHeader.astro';
+import Section from '../components/Section.astro';
 import { getLocale, useTranslations } from '../i18n/utils';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getResearch, splitLocaleId } from '../lib/content';
@@ -15,20 +17,39 @@ const topics = await Promise.all(
 
 <BaseLayout title={t('nav.research')}>
   <PageHeader title={t('nav.research')} />
-  <div class="space-y-14">
-    {
-      topics.map(({ topic, Content }) => (
-        <section id={splitLocaleId(topic.id).slug} class="scroll-mt-6">
-          <h2 class="text-2xl font-bold text-brand-900">{topic.data.title}</h2>
-          <p class="mt-2 text-slate-600">{topic.data.summary}</p>
-          {topic.data.image && (
-            <Image src={topic.data.image} alt="" class="mt-6 w-full rounded-lg" />
-          )}
-          <div class="prose prose-slate mt-6 max-w-none">
-            <Content />
+  {
+    topics.map(({ topic, Content }, i) => (
+      <Section tone={i % 2 === 0 ? 'white' : 'surface'} id={splitLocaleId(topic.id).slug}>
+        <div class="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
+          <div
+            class:list={[
+              'aspect-[4/3] overflow-hidden rounded-sm bg-brand-900',
+              i % 2 === 1 && 'lg:order-2',
+            ]}
+          >
+            {topic.data.image ? (
+              <Image
+                src={topic.data.image}
+                alt=""
+                widths={[480, 960]}
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                class="size-full object-cover"
+              />
+            ) : (
+              <NetworkPattern seed={i + 11} nodes={26} class="size-full text-brand-300" />
+            )}
           </div>
-        </section>
-      ))
-    }
-  </div>
+          <div>
+            <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
+              {topic.data.title}
+            </h2>
+            <p class="mt-4 text-lg text-neutral-600">{topic.data.summary}</p>
+            <div class="prose prose-neutral mt-6 max-w-none">
+              <Content />
+            </div>
+          </div>
+        </div>
+      </Section>
+    ))
+  }
 </BaseLayout>

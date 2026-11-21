@@ -13,20 +13,20 @@ const t = useTranslations(lang);
 
 {
   entries.length === 0 ? (
-    <p class="text-slate-500">{t('news.empty')}</p>
+    <p class="text-neutral-500">{t('news.empty')}</p>
   ) : (
-    <ul class="divide-y divide-slate-200">
+    <ul class="divide-y divide-black/10">
       {entries.map((entry) => (
-        <li class="flex flex-col gap-1 py-4 sm:flex-row sm:gap-6">
+        <li class="flex flex-col gap-1 py-5 sm:flex-row sm:gap-8">
           <time
             datetime={entry.data.date.toISOString()}
-            class="shrink-0 text-sm text-slate-500 sm:w-36"
+            class="shrink-0 font-display text-sm font-semibold text-brand-600 sm:w-40"
           >
             {formatDate(entry.data.date, lang)}
           </time>
           <a
             href={localizePath(lang, `news/${splitLocaleId(entry.id).slug}`)}
-            class="text-slate-800 hover:text-brand-600 hover:underline"
+            class="font-medium text-ink hover:text-brand-600"
           >
             {entry.data.title}
           </a>

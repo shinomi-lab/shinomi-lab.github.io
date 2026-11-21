@@ -1,20 +1,45 @@
 ---
 import { siteConfig } from '../config';
-import { getLocale, pick, useTranslations } from '../i18n/utils';
+import { getLocale, localizePath, pick, useTranslations } from '../i18n/utils';
+import Container from './Container.astro';
 
 const lang = getLocale(Astro.currentLocale);
 const t = useTranslations(lang);
 const year = new Date().getFullYear();
+const nav = [
+  { href: localizePath(lang), label: t('nav.home') },
+  { href: localizePath(lang, 'research'), label: t('nav.research') },
+  { href: localizePath(lang, 'members'), label: t('nav.members') },
+  { href: localizePath(lang, 'publications'), label: t('nav.publications') },
+  { href: localizePath(lang, 'news'), label: t('nav.news') },
+  { href: localizePath(lang, 'access'), label: t('nav.access') },
+];
 ---
 
-<footer class="border-t border-slate-200 bg-slate-50">
-  <div
-    class="mx-auto flex max-w-5xl flex-col gap-2 px-4 py-8 text-sm text-slate-500 sm:flex-row sm:justify-between sm:px-6"
-  >
+<footer class="bg-neutral-900 text-sm text-neutral-400">
+  <Container class="grid gap-10 py-14 md:grid-cols-[1.5fr_1fr]">
     <div>
-      <p class="font-semibold text-slate-700">{pick(siteConfig.name, lang)}</p>
-      <p>{pick(siteConfig.address, lang)}</p>
+      <p class="font-display text-xl font-extrabold text-white">{pick(siteConfig.name, lang)}</p>
+      <p class="mt-1">{pick(siteConfig.affiliation, lang)}</p>
+      <p class="mt-4">{pick(siteConfig.address, lang)}</p>
     </div>
-    <p>&copy; {year} {pick(siteConfig.name, lang)}. {t('footer.copyright')}</p>
+    <nav aria-label="Footer">
+      <ul class="grid grid-cols-2 gap-x-6 gap-y-3">
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href} class="font-display font-semibold text-neutral-200 hover:text-white">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </Container>
+  <div class="bg-black py-5">
+    <Container class="text-xs">
+      &copy; {year} {pick(siteConfig.name, lang)}. {t('footer.copyright')}
+    </Container>
   </div>
 </footer>

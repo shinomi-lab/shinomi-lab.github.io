@@ -4,20 +4,48 @@
 /* サイト全体の色・フォントはここで管理する */
 @theme {
   --font-sans:
-    "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic UI", Meiryo, system-ui,
-    sans-serif;
-  --color-brand-50: oklch(0.97 0.015 250);
-  --color-brand-100: oklch(0.93 0.03 250);
-  --color-brand-600: oklch(0.48 0.13 255);
-  --color-brand-700: oklch(0.4 0.12 255);
-  --color-brand-900: oklch(0.26 0.07 255);
+    "Noto Sans JP Variable", "Hiragino Sans", "Yu Gothic UI", Meiryo, system-ui, sans-serif;
+  /* 見出し: 欧文は Montserrat、和文は Noto Sans JP */
+  --font-display: "Montserrat Variable", "Noto Sans JP Variable", "Hiragino Sans", sans-serif;
+
+  /* ブランドカラー。ここを変えるとボタン・リンク・帯の色がまとめて変わる */
+  --color-brand-50: oklch(0.96 0.02 285);
+  --color-brand-100: oklch(0.91 0.045 285);
+  --color-brand-300: oklch(0.72 0.12 285);
+  --color-brand-600: oklch(0.47 0.17 285);
+  --color-brand-700: oklch(0.4 0.16 285);
+  --color-brand-900: oklch(0.25 0.09 285);
+
+  /* セクションの背景（白と交互に使う薄いグレー） */
+  --color-surface: #f2f2f2;
+  --color-ink: #1a1a1a;
 }
 
 @layer base {
   html {
-    @apply bg-white text-slate-800 antialiased;
+    @apply bg-white font-sans text-[15px] leading-relaxed text-neutral-600 antialiased sm:text-base;
+  }
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-ink;
   }
   :focus-visible {
     @apply outline-2 outline-offset-2 outline-brand-600;
+  }
+}
+
+@layer components {
+  /* 中央寄せの大見出し（各セクションのタイトル） */
+  .section-title {
+    @apply text-center font-display text-3xl font-extrabold tracking-tight text-ink sm:text-5xl;
+  }
+  /* ピル型のボタン */
+  .btn-pill {
+    @apply inline-flex items-center gap-2 rounded-full bg-brand-600 px-7 py-3 font-display text-sm font-bold text-white transition-colors hover:bg-brand-700;
+  }
+  .btn-pill-outline {
+    @apply inline-flex items-center gap-2 rounded-full border-2 border-current px-7 py-3 font-display text-sm font-bold transition-colors;
   }
 }

@@ -59,5 +59,7 @@ url: https://...            # 任意
 
 - 研究室名・住所・メールアドレス → `src/config.ts`
 - メニューなどの固定文言 → `src/i18n/ui.ts`
-- 色・フォント → `src/styles/global.css`
+- 色・フォント → `src/styles/global.css`（`--color-brand-*` を変えるとボタンや帯の色がまとめて変わる）
+- トップページのメイン画像 → `src/assets/hero.jpg`（png / webp も可）を置く。無い場合はグラフ模様を表示
+- 研究テーマ・業績の画像 → frontmatter に `image: ./images/xxx.jpg` を書く。無い場合はグラフ模様を表示
 - ページを追加するとき → `src/views/` に中身を書き、`src/pages/` と `src/pages/en/` の両方から呼ぶ

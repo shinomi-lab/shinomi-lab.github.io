@@ -1,0 +1,22 @@
+---
+// 画面幅いっぱいのセクション。白とグレー（surface）を交互に並べて使う
+import Container from './Container.astro';
+
+interface Props {
+  title?: string;
+  lead?: string;
+  tone?: 'white' | 'surface';
+  id?: string;
+}
+const { title, lead, tone = 'white', id } = Astro.props;
+---
+
+<section id={id} class:list={['py-16 sm:py-24', tone === 'surface' ? 'bg-surface' : 'bg-white']}>
+  <Container>
+    {title && <h2 class="section-title">{title}</h2>}
+    {lead && <p class="mx-auto mt-4 max-w-2xl text-center text-neutral-500">{lead}</p>}
+    <div class:list={[title && 'mt-12 sm:mt-16']}>
+      <slot />
+    </div>
+  </Container>
+</section>
