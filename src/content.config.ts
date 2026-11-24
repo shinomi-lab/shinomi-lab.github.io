@@ -8,6 +8,9 @@ const localizedText = z.object({
   en: z.string().optional(),
 });
 
+// Profile and publication links are web links; mailto is not used by current content or templates.
+const webUrl = z.url({ protocol: /^https?$/ });
+
 /** メンバー: src/content/members/<id>.yaml に 1 人 1 ファイル */
 const members = defineCollection({
   loader: glob({ base: './src/content/members', pattern: '**/[^_]*.{yaml,yml}' }),
@@ -30,7 +33,7 @@ const members = defineCollection({
       graduatedYear: z.number().int().optional(),
       photo: image().optional(),
       research: localizedText.optional(),
-      links: z.array(z.object({ label: z.string(), url: z.url() })).default([]),
+      links: z.array(z.object({ label: z.string(), url: webUrl })).default([]),
     }),
 });
 
@@ -53,7 +56,7 @@ const publications = defineCollection({
         'other',
       ]),
       doi: z.string().optional(),
-      url: z.url().optional(),
+      url: webUrl.optional(),
       /** 研究室メンバーとの紐付け（任意）。members のファイル名を書く */
       members: z.array(reference('members')).default([]),
       /** サムネイル画像（任意）。トップページのカードに表示する */
