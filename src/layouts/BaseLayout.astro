@@ -3,7 +3,7 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { siteConfig } from '../config';
 import { locales } from '../i18n/ui';
-import { getLocale, pick, switchLocalePath } from '../i18n/utils';
+import { getLocale, pick, switchLocalePath, useTranslations } from '../i18n/utils';
 import '@fontsource-variable/montserrat';
 import '@fontsource-variable/noto-sans-jp';
 import '../styles/global.css';
@@ -15,6 +15,7 @@ interface Props {
 }
 
 const lang = getLocale(Astro.currentLocale);
+const t = useTranslations(lang);
 const siteName = pick(siteConfig.name, lang);
 const { title, description = pick(siteConfig.description, lang) } = Astro.props;
 const pageTitle = title ? `${title} | ${siteName}` : siteName;
@@ -48,8 +49,14 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta name="generator" content={Astro.generator} />
   </head>
   <body class="flex min-h-screen flex-col">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-ink focus:shadow-lg"
+    >
+      {t('a11y.skipToContent')}
+    </a>
     <Header />
-    <main class="flex-1">
+    <main id="main-content" tabindex="-1" class="flex-1">
       <slot />
     </main>
     <Footer />
