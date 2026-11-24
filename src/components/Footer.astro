@@ -23,7 +23,7 @@ const nav = [
       <p class="mt-1">{pick(siteConfig.affiliation, lang)}</p>
       <p class="mt-4">{pick(siteConfig.address, lang)}</p>
     </div>
-    <nav aria-label="Footer">
+    <nav aria-label={t('nav.footer')}>
       <ul class="grid grid-cols-2 gap-x-6 gap-y-3">
         {
           nav.map((item) => (

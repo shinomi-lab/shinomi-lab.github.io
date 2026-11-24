@@ -7,7 +7,7 @@ const lang = getLocale(Astro.currentLocale);
 const t = useTranslations(lang);
 ---
 
-<div class="flex items-center gap-2 text-sm" aria-label={t('lang.switch')}>
+<div class="flex items-center gap-2 text-sm" role="group" aria-label={t('lang.switch')}>
   {
     locales.map((l) =>
       l === lang ? (
