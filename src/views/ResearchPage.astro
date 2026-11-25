@@ -21,10 +21,17 @@ const topics = await Promise.all(
     topics.map(({ topic, Content }, i) => (
       <Section tone={i % 2 === 0 ? 'white' : 'surface'} id={splitLocaleId(topic.id).slug}>
         <div class="grid items-start gap-10 lg:grid-cols-2 lg:gap-16">
+          <div class:list={[i % 2 === 0 ? 'lg:col-start-2' : 'lg:col-start-1', 'lg:row-start-1']}>
+            <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
+              {topic.data.title}
+            </h2>
+            <p class="mt-4 text-lg text-neutral-600">{topic.data.summary}</p>
+          </div>
           <div
             class:list={[
               'aspect-[4/3] overflow-hidden rounded-sm bg-brand-900',
-              i % 2 === 1 && 'lg:order-2',
+              i % 2 === 0 ? 'lg:col-start-1' : 'lg:col-start-2',
+              'lg:row-span-2 lg:row-start-1',
             ]}
           >
             {topic.data.image ? (
@@ -39,11 +46,7 @@ const topics = await Promise.all(
               <NetworkPattern seed={i + 11} nodes={26} class="size-full text-brand-300" />
             )}
           </div>
-          <div>
-            <h2 class="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
-              {topic.data.title}
-            </h2>
-            <p class="mt-4 text-lg text-neutral-600">{topic.data.summary}</p>
+          <div class:list={[i % 2 === 0 ? 'lg:col-start-2' : 'lg:col-start-1', 'lg:row-start-2']}>
             <div class="prose prose-neutral mt-6 max-w-none">
               <Content />
             </div>
