@@ -16,7 +16,7 @@ const heroImages = import.meta.glob<{ default: ImageMetadata }>(
 const heroImage = Object.values(heroImages)[0]?.default;
 ---
 
-<section class="relative isolate flex min-h-[70vh] items-end overflow-hidden bg-brand-900 text-white">
+<section class="relative isolate flex min-h-[68svh] items-end overflow-hidden bg-brand-900 text-white sm:min-h-[62vh]">
   {
     heroImage ? (
       <Image

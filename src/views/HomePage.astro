@@ -20,7 +20,7 @@ const news = (await getNews(lang)).slice(0, 5);
 <BaseLayout>
   <Hero />
 
-  <Section title={t('home.research')} tone="surface">
+  <Section title={t('home.research')} tone="surface" compact>
     <div class="grid gap-6 md:grid-cols-2">
       {
         research.map((topic, i) => (
