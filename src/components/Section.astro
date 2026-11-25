@@ -7,15 +7,19 @@ interface Props {
   lead?: string;
   tone?: 'white' | 'surface';
   id?: string;
+  compact?: boolean;
 }
-const { title, lead, tone = 'white', id } = Astro.props;
+const { title, lead, tone = 'white', id, compact = false } = Astro.props;
 ---
 
-<section id={id} class:list={['py-16 sm:py-24', tone === 'surface' ? 'bg-surface' : 'bg-white']}>
+<section
+  id={id}
+  class:list={[compact ? 'py-12 sm:py-24' : 'py-16 sm:py-24', tone === 'surface' ? 'bg-surface' : 'bg-white']}
+>
   <Container>
     {title && <h2 class="section-title">{title}</h2>}
     {lead && <p class="mx-auto mt-4 max-w-2xl text-center text-neutral-500">{lead}</p>}
-    <div class:list={[title && 'mt-12 sm:mt-16']}>
+    <div class:list={[title && (compact ? 'mt-8 sm:mt-16' : 'mt-12 sm:mt-16')]}>
       <slot />
     </div>
   </Container>
