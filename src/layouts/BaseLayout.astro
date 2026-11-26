@@ -1,4 +1,6 @@
 ---
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { siteConfig } from '../config';
@@ -20,6 +22,25 @@ const siteName = pick(siteConfig.name, lang);
 const { title, description = pick(siteConfig.description, lang) } = Astro.props;
 const pageTitle = title ? `${title} | ${siteName}` : siteName;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const heroImages = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/hero.{jpg,jpeg,png,webp}',
+  { eager: true },
+);
+const heroImage = Object.values(heroImages)[0]?.default;
+const socialImage = heroImage
+  ? await getImage({
+      src: heroImage,
+      width: 1200,
+      height: 630,
+      fit: 'cover',
+      position: 'bottom',
+      format: 'jpg',
+      quality: 85,
+    })
+  : undefined;
+const socialImageUrl = socialImage && Astro.site ? new URL(socialImage.src, Astro.site) : undefined;
+const socialImageAlt =
+  lang === 'ja' ? '篠宮研究室のメンバー集合写真' : 'A group photo of Shinomiya Laboratory members';
 ---
 
 <!doctype html>
@@ -46,6 +67,19 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    {
+      socialImageUrl && (
+        <>
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta property="og:image" content={socialImageUrl} />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          <meta property="og:image:alt" content={socialImageAlt} />
+          <meta name="twitter:image" content={socialImageUrl} />
+          <meta name="twitter:image:alt" content={socialImageAlt} />
+        </>
+      )
+    }
     <meta name="generator" content={Astro.generator} />
   </head>
   <body class="flex min-h-screen flex-col">
