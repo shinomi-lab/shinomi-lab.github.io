@@ -83,6 +83,7 @@ const isActive = (href: string) => (href === home ? current === href : current.s
             <a
               href={item.href}
               class="block border-b border-black/5 py-4 font-display font-semibold text-ink"
+              aria-current={isActive(item.href) ? 'page' : undefined}
             >
               {item.label}
             </a>

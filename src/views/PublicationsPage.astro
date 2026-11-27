@@ -2,6 +2,7 @@
 import { render } from 'astro:content';
 import Container from '../components/Container.astro';
 import PageHeader from '../components/PageHeader.astro';
+import { publicationTextLanguage } from '../i18n/publicationLanguage';
 import { getLocale, useTranslations } from '../i18n/utils';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getPublications } from '../lib/content';
@@ -33,7 +34,10 @@ const years = [...byYear.keys()].sort((a, b) => b - a);
                 <p class="font-display text-xs font-bold tracking-wider text-brand-600 uppercase">
                   {publicationTypeLabels[pub.data.type][lang]}
                 </p>
-                <p class="mt-1 font-display text-lg font-bold text-ink">
+                <p
+                  class="mt-1 font-display text-lg font-bold text-ink"
+                  lang={publicationTextLanguage(pub.data.title, lang)}
+                >
                   {pub.data.url ? (
                     <a href={pub.data.url} class="hover:text-brand-600 hover:underline">
                       {pub.data.title}
@@ -43,7 +47,9 @@ const years = [...byYear.keys()].sort((a, b) => b - a);
                   )}
                 </p>
                 <p class="text-sm text-neutral-600">{pub.data.authors.join(', ')}</p>
-                <p class="text-sm text-neutral-500 italic">{pub.data.venue}</p>
+                <p class="text-sm text-neutral-500 italic" lang={publicationTextLanguage(pub.data.venue, lang)}>
+                  {pub.data.venue}
+                </p>
                 {pub.data.doi && (
                   <a
                     href={`https://doi.org/${pub.data.doi}`}
