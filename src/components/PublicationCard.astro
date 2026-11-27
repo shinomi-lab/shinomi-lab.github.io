@@ -2,6 +2,7 @@
 // 業績のカード（サムネイル + 種別 + タイトル）
 import { Image } from 'astro:assets';
 import type { CollectionEntry } from 'astro:content';
+import { publicationTextLanguage } from '../i18n/publicationLanguage';
 import { getLocale } from '../i18n/utils';
 import { publicationTypeLabels } from '../lib/labels';
 import NetworkPattern from './NetworkPattern.astro';
@@ -39,9 +40,14 @@ const Tag = link ? 'a' : 'div';
     <p class="font-display text-xs font-bold tracking-wider text-brand-600 uppercase">
       {publicationTypeLabels[pub.data.type][lang]} · {pub.data.date.getFullYear()}
     </p>
-    <h3 class="mt-2 font-display text-lg leading-snug font-bold group-hover:text-brand-600">
+    <h3
+      class="mt-2 font-display text-lg leading-snug font-bold group-hover:text-brand-600"
+      lang={publicationTextLanguage(pub.data.title, lang)}
+    >
       {pub.data.title}
     </h3>
-    <p class="mt-auto pt-4 text-sm text-neutral-500">{pub.data.venue}</p>
+    <p class="mt-auto pt-4 text-sm text-neutral-500" lang={publicationTextLanguage(pub.data.venue, lang)}>
+      {pub.data.venue}
+    </p>
   </div>
 </Tag>

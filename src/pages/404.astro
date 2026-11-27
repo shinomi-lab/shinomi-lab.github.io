@@ -5,9 +5,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout title="404 Not Found">
   <Container class="py-24 text-center sm:py-32">
-    <p class="font-display text-7xl font-extrabold text-brand-600">404</p>
+    <h1 class="font-display text-7xl font-extrabold text-brand-600">404</h1>
     <p class="mt-6 text-neutral-600">お探しのページは見つかりませんでした。</p>
-    <p class="text-neutral-600">The page you are looking for could not be found.</p>
+    <p class="text-neutral-600" lang="en">The page you are looking for could not be found.</p>
     <a href={import.meta.env.BASE_URL} class="btn-pill mt-10">ホーム / Home</a>
   </Container>
 </BaseLayout>
